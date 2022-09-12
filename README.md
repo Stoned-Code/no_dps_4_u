@@ -27,34 +27,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ## Setup Instructions:
-1. Clone the repository: 
+1. Clone the repository:
 ```
 git clone https://github.com/Stoned-Code/no_dps_4_u.git
 ```
-2. Change directory to the repository:
+2. Change directory to the repository
 ```
 cd no_dps_4_u
 ```
-3. Create a virtual environment: 
+3. Create a virtual environment:
 ```
 python -m venv venv
 ```
-4. Activate Virtual Environment: 
+4. Activate Virtual Environment:
 
-- If you're using Windows.
+- If you're using Windows
 ```
 source venv/Scripts/activate
 ```
 
-- If you're using Linux.
+- If you're using Linux
 ``` 
 source venv/bin/activate
 ```
-5. Install Libraries:
+5. Install Libraries
 ```
 pip install -r requirements.txt
 ```
-6. Create and open a file named "config.py" (Use whatever text editor you're comfortable using.)
+6. Create and open a file named "config.py" (Use whatever text editor you're comfortable using)
 ```
 code config.py
 ```
@@ -63,7 +63,7 @@ code config.py
 PREFIX = 'owb.' # Prefix for the bot's commands.
 TOKEN = 'your_bot_token' # The discord bot's token.
 ```
-8. Run the bot.
+8. Run the bot
 ```
 python main.py
 ```
