@@ -27,7 +27,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ## Setup Instructions:
-1. Clone the repository:
+1. Clone the repository
 ```
 git clone https://github.com/Stoned-Code/no_dps_4_u.git
 ```
