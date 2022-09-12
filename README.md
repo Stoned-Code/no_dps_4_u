@@ -56,7 +56,7 @@ pip install -r requirements.txt
 ```
 6. Create and open a file named "config.py"
 ```
-# Use whatever code editor you're comfortable using.
+# Use whatever text editor you're comfortable using.
 code config.py
 ```
 7. Within the "config.py" file, create two variables
