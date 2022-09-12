@@ -31,7 +31,7 @@ SOFTWARE.
 ```
 git clone https://github.com/Stoned-Code/no_dps_4_u.git
 ```
-2. Change working directory to the repository:
+2. Change directory to the repository:
 ```
 cd no_dps_4_u
 ```
@@ -40,11 +40,14 @@ cd no_dps_4_u
 python -m venv venv
 ```
 4. Activate Virtual Environment: 
-```
-# If you're using Windows.
-source venv/Scripts/activate
 
-# If you're using Linux.
+- If you're using Windows.
+```
+source venv/Scripts/activate
+```
+
+- If you're using Linux.
+``` 
 source venv/bin/activate
 ```
 5. Install Libraries:
@@ -65,5 +68,3 @@ TOKEN = 'your_bot_token' # The discord bot's token.
 ```
 python main.py
 ```
-
-
