@@ -18,7 +18,8 @@ class Command_Class:
     def __init__(self, client):
         self.client = client # Sets the client.
 
-        load_thread = threading.Thread(target=self.load_commands) # Creates a new thread.
+        # Creates a new thread.
+        load_thread = threading.Thread(target=self.load_commands) 
         load_thread.run() # Loads the commands using the created thread.
     
 

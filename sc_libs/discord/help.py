@@ -7,6 +7,7 @@ class SCHelp(Command_Class):
     help_thumbnail = 'https://upload.wikimedia.org/wikipedia/commons/b/b9/1328101905_Help.png'
     help_color = 0x0096FF
     command_color = 0x800080
+    bot_description = 'No description available.'
 
     def __init__(self, client):
         client.remove_command('help')  # Removes the default help command.
@@ -23,9 +24,14 @@ class SCHelp(Command_Class):
                 return  # Returns if "bot" isn't in the channel name.
 
             if (commandName == None):
-                embed = self.build_help_embed(ctx)  # Builds the help embed.
+                embeds = self.build_help_embed(ctx)  # Builds the help embed.
                 # Creates a webhook and sends the created embed.
-                await ctx.send(embed=embed)
+                for embed in embeds:
+                    try:
+                        await ctx.send(embed=embed)
+                    except Exception as ex:
+                        print('Something fucked up...\n{}'.format(ex))
+
 
             else:
                 embed, success = self.build_command_help_embed(commandName)
@@ -35,6 +41,7 @@ class SCHelp(Command_Class):
                 else:
                     embed = self.build_help_embed(ctx)
                     await ctx.send(embed=embed)
+                    
     @classmethod
     def set_thumbnail(self, url: str):
         self.help_thumbnail = url
@@ -45,10 +52,10 @@ class SCHelp(Command_Class):
         Properties
         ----------
         h_color: `int`
-            The color for the help command embed.
+            The color for the help embed.
         
         c_color: `int`
-            The color for the help command embed.
+            The color for the command embed.
         """
         if (h_color != None):
             self.help_color = h_color
@@ -65,6 +72,7 @@ class SCHelp(Command_Class):
         ctx: `discord.ext.commands.Context`
             The context of the discord command.
         """
+        embeds = []
         embed = discord.Embed(
             title=':question: Bot Commands', color=self.help_color)
         embed.set_thumbnail(url=self.help_thumbnail)
@@ -80,24 +88,36 @@ class SCHelp(Command_Class):
         embed.add_field(name='Categories', value=categoryString, inline=True)
         embed.add_field(name='Prefix', value='```{0}```'.format(
             Command.prefix), inline=True)
-
+        embed.add_field(name = 'Bot Description', value = SCHelp.bot_description, inline = False)
+        embeds.append(embed)
         # Loops through all categories
         for category in Command.categories:
-            appendedString = ''
+            try:
+                category_embed = discord.Embed(title = ':information_source: {} Commands'.format(category), color = self.help_color)
 
-            # Loops through all commands
-            for command in Command.commandList:
-                aliases = ''
-                if (command.aliases != None):
-                    aliases = '\n`Aliases: {0}`'.format(
-                        ', '.join(command.aliases))
-                if (command.category == category):
-                    appendedString += '\n**{0.name}** {2} \n`Ex: {1}{0.example}`\n```json\n"Description: {0.description}"```'.format(
-                        command, Command.prefix, aliases)
+                # Loops through all commands
+                for command in Command.commandList:
+                    appendedString = ''
+                    aliases = ''
 
-            embed.add_field(name=':information_source: {0} Commands'.format(category), value=appendedString, inline=False)
+                    if (command.category == category):
+                        appendedString += '\n\n`Ex: {0}{1}`\n```json\n"Description: {2}"```'.format(
+                            Command.prefix, command.example, command.description)
 
-        return embed
+                    if (command.aliases != None):
+                        aliases = '\n`Aliases: {0}`'.format(
+                            ', '.join(command.aliases))
+
+                        appendedString += aliases
+
+                    if command.category == category:   
+                        category_embed.add_field(name = command.name, value = appendedString, inline = False)
+                #category_embed.add_field(name=category, value=appendedString, inline=False)
+                embeds.append(category_embed)
+            except Exception as ex:
+                print('Someting fucked up...\n{}'.format(ex))
+
+        return embeds
 
     @classmethod
     def build_command_help_embed(self, commandName):
