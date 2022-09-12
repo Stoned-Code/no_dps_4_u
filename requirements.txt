@@ -1,17 +1,9 @@
 aiohttp==3.7.4.post0
-altgraph==0.17.2
 async-timeout==3.0.1
 attrs==22.1.0
 chardet==4.0.0
 discord.py==1.7.3
-future==0.18.2
 idna==3.3
-importlib-metadata==4.12.0
 multidict==6.0.2
-pefile==2022.5.30
-pyinstaller==5.4.1
-pyinstaller-hooks-contrib==2022.10
-pywin32-ctypes==0.2.0
 typing-extensions==4.3.0
 yarl==1.8.1
-zipp==3.8.1

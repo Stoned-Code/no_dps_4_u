@@ -1,5 +1,3 @@
-# Build Command: pyinstaller --onefile --noupx main.py -n "OverwatchSC Bot"
-
 import discord  # Import discord.py library.
 from discord.ext import commands  # Imports the commands script.
 

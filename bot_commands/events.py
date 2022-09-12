@@ -11,4 +11,3 @@ def register_events(client: Bot):
         await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name='{}help'.format(config.PREFIX)))
         print('Bot logged in as {}.'.format(client.user))
         print('Prefix: {}'.format(config.PREFIX))
-        print('Port: {}'.format(config.PORT))
