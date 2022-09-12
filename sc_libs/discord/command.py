@@ -3,7 +3,7 @@ import discord
 
 from sc_libs.discord.command_class import Command_Class
 
-class Command:
+class SCCommand:
     """SC Command
     
     An object containg basic information about commands.
@@ -60,9 +60,9 @@ class Command:
         self.aliases = kwargs.get('aliases', None)
         self.argumentDescriptions = kwargs.get('argumentDescriptions', None)
 
-        Command.commandList.append(self)
-        if (self.category != None and self.category not in Command.categories):
-            Command.categories.append(self.category)
+        SCCommand.commandList.append(self)
+        if (self.category != None and self.category not in SCCommand.categories):
+            SCCommand.categories.append(self.category)
 
 
     def __call__(self, func):
@@ -77,23 +77,8 @@ class Command:
         info = 'Name: {0.name}\nExample: {0.prefix}{0.example}\nCategory: {0.category}\nDescription: {0.description}'.format(self)
         return info
 
-
     @classmethod
-    def arg_concatenate(self, *args, **kwargs):
-        seperator = kwargs.get('seperator', ' ')
-        try:
-            conc = ''
-            for arg in args:
-                conc += '{0}{1}'.format(arg, seperator)
-
-            return (conc, True)
-        except Exception as ex:
-            print('Something fucked up concatenating Kwargs: {0}'.format(ex))
-            return ('', False)
-
-
-    @classmethod
-    def set_prefix(self, prefix):
+    def set_prefix(cls, prefix):
         """Sets the prefix of the `SC_Command` class
 
         Properties
@@ -101,4 +86,4 @@ class Command:
         prefix: `string`
             The prefix used for the commands
         """
-        self.prefix = prefix
+        cls.prefix = prefix

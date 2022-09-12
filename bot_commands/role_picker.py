@@ -1,11 +1,12 @@
-import discord
-from discord.ext import commands
-from sc_libs.discord.command import Command
-from sc_libs.discord.command_class import Command_Class
-from sc_libs.utils.random import choices
-from sc_libs.utils.conversions import tuple_to_list
 import config
-maximum_player_count = 6
+import discord
+from discord.ext.commands.context import Context
+from sc_libs.discord.command import SCCommand
+from sc_libs.discord.command_class import Command_Class
+from sc_libs.utils.conversions import tuple_to_list
+from sc_libs.utils.random import choices
+
+
 class RolePicker(Command_Class):
     previous_damage = []
     previous_tanks = []
@@ -13,10 +14,9 @@ class RolePicker(Command_Class):
 
     def load_commands(self) -> None:
 
-        @Command(name = 'damage', category = 'Role Picker', description = 'Picks dps from given names.', example = 'damage {name 1} {name 2} {name...}')
-        @self.client.command()
-        async def damage(ctx, *args):
-
+        @SCCommand(name = 'damage', category = 'Role Picker', description = 'Picks dps from given names.', example = 'damage {name 1} {name 2} {name...}')
+        @self.bot_client.command()
+        async def damage(ctx: Context, *args):
             self.previous_damage = tuple_to_list(args)
 
             if args == None or len(args) == 0:
@@ -26,9 +26,10 @@ class RolePicker(Command_Class):
             dps = choices(args, 2)
             await ctx.send('Your chosen DPS are: {}'.format(', '.join(dps)))
     
-        @Command(name = 'reroll_damage', category = 'Role Picker', description = 'Re-rolls the previous inputed names for two more damage players.')
-        @self.client.command()
-        async def reroll_damage(ctx):
+
+        @SCCommand(name = 'reroll_damage', category = 'Role Picker', description = 'Re-rolls the previous inputed names for two more damage players.')
+        @self.bot_client.command()
+        async def reroll_damage(ctx: discord.ext.commands.context.Context):
             if len(self.previous_damage) == 0:
                 await ctx.send('Damage command has yet to be used. Do `{0}help damage`'.format(config.PREFIX))
                 return
@@ -38,9 +39,9 @@ class RolePicker(Command_Class):
             await ctx.send('Your chosen DPS are: {}'.format(', '.join(dps)))
         
 
-        @Command(name = 'tank', category = 'Role Picker', description = 'Picks tanks from given names.', example = 'tank {name 1} {name 2} {name...}')
-        @self.client.command()
-        async def tank(ctx, *args):
+        @SCCommand(name = 'tank', category = 'Role Picker', description = 'Picks tanks from given names.', example = 'tank {name 1} {name 2} {name...}')
+        @self.bot_client.command()
+        async def tank(ctx: discord.ext.commands.context.Context, *args):
 
             self.previous_tanks = tuple_to_list(args)
 
@@ -53,9 +54,9 @@ class RolePicker(Command_Class):
             await ctx.send('Your chosen tank is: {}'.format(', '.join(tanks)))
 
 
-        @Command(name = 'reroll_tank', category = 'Role Picker', description = 'Re-rolls the previous inputed tank names for another tank player.')
-        @self.client.command() 
-        async def reroll_tank(ctx):
+        @SCCommand(name = 'reroll_tank', category = 'Role Picker', description = 'Re-rolls the previous inputed tank names for another tank player.')
+        @self.bot_client.command() 
+        async def reroll_tank(ctx: discord.ext.commands.context.Context):
             if len(self.previous_tanks) == 0:
                 await ctx.send('Tank command has yet to be used. Do `{0}help tank`'.format(config.PREFIX))
                 return
@@ -65,9 +66,9 @@ class RolePicker(Command_Class):
             await ctx.send('Your chosen tank is: {}'.format(tanks[0]))
 
 
-        @Command(name = 'heals', category = 'Role Picker', description = 'Picks healers from given names.', example = 'heal {name 1} {name 2} {name...}')
-        @self.client.command()
-        async def heals(ctx, *args):
+        @SCCommand(name = 'heals', category = 'Role Picker', description = 'Picks healers from given names.', example = 'heal {name 1} {name 2} {name...}')
+        @self.bot_client.command()
+        async def heals(ctx: discord.ext.commands.context.Context, *args):
 
             self.previous_healers = tuple_to_list(args)
 
@@ -79,9 +80,9 @@ class RolePicker(Command_Class):
             await ctx.send('Your chosen healers are: {}'.format(', '.join(healers)))
 
 
-        @Command(name = 'reroll_healers', category = 'Role Picker', description = 'Re-rolls the previous inputed names for two more healers.')
-        @self.client.command()
-        async def reroll_healers(ctx):
+        @SCCommand(name = 'reroll_healers', category = 'Role Picker', description = 'Re-rolls the previous inputed names for two more healers.')
+        @self.bot_client.command()
+        async def reroll_healers(ctx: discord.ext.commands.context.Context):
             if len(self.previous_healers) == 0:
                 await ctx.send('Heals command has yet to be used. Do `{0}help heals`'.format(config.PREFIX))
                 return

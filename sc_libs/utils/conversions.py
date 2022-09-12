@@ -11,6 +11,7 @@ def list_to_tuple(li: list):
     """
     return tuple(li)
 
+
 def tuple_to_list(tup: tuple):
     """
     Converts a tuple to a list.
