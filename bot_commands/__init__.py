@@ -21,7 +21,7 @@ def register_bot_commands(client: commands.Bot) -> None:
     role_picker = RolePicker(client) # Registers role picker commands.
     owner = Owner(client) # Registers owner commands.
 
-    events.register_events(client, role_picker) # Registers the bot events.
+    events.register_events(client) # Registers the bot events.
 
     SCHelp.set_bot_description('A bot for Overwatch gaming stuffs, I don\'t know I\'m high.') # Sets the bot's description.
     SCHelp.set_thumbnail('https://clipartcraft.com/images/overwatch-logo-transparent-large-6.png') # Sets the thumbnail for the help command.
