@@ -32,47 +32,60 @@ SOFTWARE.
 git clone https://github.com/Stoned-Code/no_dps_4_u.git
 ```
 2. Change directory to the repository
+
 ```
 cd no_dps_4_u
 ```
+
 3. Create a virtual environment:
 ```
 python -m venv venv
 ```
+
 4. Activate Virtual Environment:
+    - If you're using Windows
 
-- If you're using Windows
-```
-source venv/Scripts/activate
-```
+    ```
+    source venv/Scripts/activate
+    ```
 
-- If you're using Linux
-``` 
-source venv/bin/activate
-```
-5. Install Libraries
+    - If you're using Linux
+
+    ``` 
+    source venv/bin/activate
+    ```
+
+5. Install Librarie
+
 ```
 pip install -r requirements.txt
 ```
+
 6. Create and open a file named "config.py" (Use whatever text editor you're comfortable using)
+
 ```
 code config.py
 ```
+
 7. Within the "config.py" file, create four variables
+
 ```python
 PREFIX = 'owb.' # `string`: Prefix for the bot's commands.
 TOKEN = 'your_bot_token' # `string`: The discord bot's token.
 BOT_CHANNEL_IDS = [ID1, ID2, ID...] # `list(int)`: The whitelisted bot command channel for the bot.
-REROLL_REACTION = '🎲' # `string`: The reaction used for 
+REROLL_REACTION = '🎲' # `string`: The reaction used for re-rolling an OW role.
 ```
+
 8. Insure that the bot has the following permissions.
-* "Send Message"
-* "Read Message History"
-* "Use External Emojis"
-* "Add Reaction"
+    - "Send Message"
+    - "Read Message History"
+    - "Use External Emojis"
+    - "Add Reaction"
 
 ![Bot Permissions](https://github.com/Stoned-Code/no_dps_4_u/blob/main/Images/Permissions.png)
+
 9. Run the bot
+
 ```
 python main.py
 ```
