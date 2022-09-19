@@ -58,10 +58,12 @@ pip install -r requirements.txt
 ```
 code config.py
 ```
-7. Within the "config.py" file, create two variables
+7. Within the "config.py" file, create four variables
 ```python
-PREFIX = 'owb.' # Prefix for the bot's commands.
-TOKEN = 'your_bot_token' # The discord bot's token.
+PREFIX = 'owb.' # `string`: Prefix for the bot's commands.
+TOKEN = 'your_bot_token' # `string`: The discord bot's token.
+BOT_CHANNEL_IDS = [ID1, ID2, ID...] # `list(int)`: The whitelisted bot command channel for the bot.
+REROLL_REACTION = '🎲' # `string` or `int`: The reaction used for 
 ```
 8. Run the bot
 ```

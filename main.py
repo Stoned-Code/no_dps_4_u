@@ -11,5 +11,5 @@ intents.guilds = True # Enables guild intents.
 
 client = commands.Bot(command_prefix = config.PREFIX, intents = intents) # Creates discord bot client.
 SCCommand.set_prefix(config.PREFIX) # Sets the prefix for the help command info.
-register_bot_commands(client) # Registers the bot commands.
+register_bot_commands(client, ) # Registers the bot commands.
 client.run(config.TOKEN) # Runs the discord bot.
