@@ -7,7 +7,6 @@ from sc_libs.discord.command import SCCommand  # Imports the sc_libs Command cla
 
 intents = discord.Intents.default() # Creates a default intent object.
 intents.members = True # Enables member intents.
-intents.guilds = True # Enables guild intents.
 
 client = commands.Bot(command_prefix = config.PREFIX, intents = intents) # Creates discord bot client.
 SCCommand.set_prefix(config.PREFIX) # Sets the prefix for the help command info.
