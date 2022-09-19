@@ -63,7 +63,7 @@ code config.py
 PREFIX = 'owb.' # `string`: Prefix for the bot's commands.
 TOKEN = 'your_bot_token' # `string`: The discord bot's token.
 BOT_CHANNEL_IDS = [ID1, ID2, ID...] # `list(int)`: The whitelisted bot command channel for the bot.
-REROLL_REACTION = '🎲' # `string` or `int`: The reaction used for 
+REROLL_REACTION = '🎲' # `string`: The reaction used for 
 ```
 8. Run the bot
 ```
