@@ -1,6 +1,6 @@
 
 from macpath import split
-from bot_commands.enums.Roles import ReRollTypes
+from enums.roles import ReRollTypes
 from bot_commands.events import add_reaction_callback
 import config
 import discord
@@ -165,7 +165,8 @@ class RolePicker(Command_Class):
 
             await self.add_reaction(msg)
         
-        @SCCommand(name = 'team', category = 'Role Picker', description = 'Give {} player names and it\'ll spit out their roles.'.format(max_player_count), example = 'team {name 1} {name 2} {name...} {name 6')
+
+        @SCCommand(name = 'team', category = 'Role Picker', description = 'Give {} player names and it\'ll spit out their roles.'.format(max_player_count), example = 'team {name 1} {name 2} {name...} {name 6}')
         @self.bot_client.command()
         async def team(ctx: Context, *args):
             if len(args) < max_player_count:
