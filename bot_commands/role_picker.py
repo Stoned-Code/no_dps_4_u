@@ -1,6 +1,7 @@
 import config
 import discord
 from discord import Embed, Emoji
+from discord.ext.commands.bot import Bot
 from discord.ext.commands.context import Context
 from enums.roles import ReRollTypes
 from sc_libs.discord.command import SCCommand
@@ -13,95 +14,115 @@ from bot_commands.events import add_reaction_callback
 max_player_count = 6
 
 class RolePicker(Command_Class):
-    previous_damage = ()
-    previous_tanks = ()
-    previous_healers = ()
-    previous_team = ()
-    def __init__(self, client):
-        super().__init__(client)
-        add_reaction_callback(self.on_reaction)
+    previous_damage = () # Previous information on the damage command.
+    previous_tanks = () # Previous information on the tank command.
+    previous_healers = () # Previous information on the healing command. 
+    previous_team = () # Previous information on the team command.
 
+    def __init__(self, client: Bot):
+        super().__init__(client) # Initialized the base class.
+        add_reaction_callback(self.on_reaction) # Adds a callback to the "on_raw_reaction_add" event.
+
+    # The callback used for the "on_raw_reaction_add" event.
     async def on_reaction(self, payload):
+        # Checks to make sure the bot can post in the channel or if the user ID is the bot's user ID.
         if payload.channel_id not in config.BOT_CHANNEL_IDS or payload.user_id == self.bot_client.user.id:
             return
             
-        msg_id = payload.message_id
-        channel_id = payload.channel_id
-        channel: discord.TextChannel = self.bot_client.get_channel(channel_id)
+        msg_id = payload.message_id # Grabs the message ID.
+        channel_id = payload.channel_id # Grabs the channel ID.
+        channel: discord.TextChannel = self.bot_client.get_channel(channel_id) # Gets the text channel object using the channel ID.
 
-        split_reroll = config.REROLL_REACTION.split(':')
+        split_reroll = config.REROLL_REACTION.split(':') # Splits the re-roll reaction with ":".
 
+        # Checks if the re-roll reaction is a default reaction.
         if payload.emoji.id == None:
+            # Checks if the split list of the emoji is equal to 1.
             if len(split_reroll) == 1:
-                emoji_flag = payload.emoji.name == config.REROLL_REACTION
+                emoji_flag = payload.emoji.name == config.REROLL_REACTION # Set's the emoji flag to True if the name of the emoji is equal to the re-roll reaction.
 
+            # Checks if the split list of the emoji is equal to 3.
             elif len(split_reroll) == 3:
-                names_match = payload.emoji.name.lower() == config.REROLL_REACTION.split(':')[1].lower()
-                ids_match = payload.emoji.id == int(config.REROLL_REACTION.split(':')[2])
-                emoji_flag =  names_match and ids_match
+                names_match = payload.emoji.name.lower() == config.REROLL_REACTION.split(':')[1].lower() #  Checks if the name of the emoji is the same as the re-roll reaction name.
+                ids_match = payload.emoji.id == int(config.REROLL_REACTION.split(':')[2]) # Checks if the id of the emoji is the same as the re-roll ID.
+                emoji_flag =  names_match and ids_match # Creates a flag from the two previous flags.
         else:
+            # Checks if the split list of the emoji is equal to 1.
             if len(split_reroll) == 1:
-                emoji_flag = False
+                emoji_flag = False # Sets the emoji flag to False.
             else:
-                names_match = payload.emoji.name.lower() == config.REROLL_REACTION.split(':')[1].lower()
-                ids_match = payload.emoji.id == int(config.REROLL_REACTION.split(':')[2])
-                emoji_flag =  names_match and ids_match
+                names_match = payload.emoji.name.lower() == config.REROLL_REACTION.split(':')[1].lower() # Checks if the names of the emoji is equal to the name of the re-roll reaction.
+                ids_match = payload.emoji.id == int(config.REROLL_REACTION.split(':')[2]) # Checks if the IDs of the emoji is equal to the name of the re-roll ID.
+                emoji_flag =  names_match and ids_match # Creates a flag from the two previous flags.
 
+        # Checks if the emoji flag is False and returns if so.
         if not emoji_flag:
             return
 
-        reroll_info = self.get_reroll_message(msg_id)
-        success = reroll_info[0]
-        role = reroll_info[1]
+        reroll_info = self.get_reroll_message(msg_id) # Retrieves re-roll message from message id.
+        success = reroll_info[0] # Checks if the retrieval was a success.
+        role = reroll_info[1] # Gets the re-roll type.
 
+        # If the retreival failed the function returns.
         if not success:
             return
 
+        # Checks if the roll type is damage.
         if role == ReRollTypes.DAMAGE:
+            await self.reroll_damage(channel) # Calls reroll_damage function.
 
-            await self.reroll_damage(channel)
-
+        # Checks if the roll type is healer.
         elif role == ReRollTypes.HEALER:
-            await self.reroll_healers(channel)
+            await self.reroll_healers(channel) # Calls reroll_healers function.
         
+        # Checks if the roll type is tank.
         elif role == ReRollTypes.TANK:
-            await self.reroll_tank(channel)
+            await self.reroll_tank(channel) # Calls reroll_tank function.
 
+        # Check if the roll type is team.
         elif role == ReRollTypes.TEAM:
-            await self.reroll_team(channel)
+            await self.reroll_team(channel) # Calls the reroll_team function.
 
+    # Gets a message if it's a re-roll message, otherwise it returns None.
     def get_reroll_message(self, id):
-        dmg_available = len(self.previous_damage) != 0
-        healer_available = len(self.previous_healers) != 0
-        tank_available =  len(self.previous_tanks) != 0
-        team_available = len(self.previous_team) != 0
+        team_available = len(self.previous_team) != 0 # Checks if the team role is available for re-roll.
+        
+        # Creates a flag to see if there are re-roll messages available.
+        is_reroll_msg = team_available and self.previous_team[0] == id or self.damage_available and self.previous_damage[0] == id or self.healers_available and self.previous_healers[0] == id or self.tanks_available and self.previous_tanks[0] == id
 
-        is_reroll_msg = team_available and self.previous_team[0] == id or dmg_available and self.previous_damage[0] == id or healer_available and self.previous_healers[0] == id or tank_available and self.previous_tanks[0] == id
-
+        # Returns False if there are re-roll messages available.
         if not is_reroll_msg:
-            return False
+            return tuple([False, None])
 
+        # Creates a list from the previous called commands.
+        reroll_info = [self.previous_damage, 
+                    self.previous_healers, 
+                    self.previous_tanks, 
+                    self.previous_team]
+        reroll_info = [item for item in reroll_info if len(item) == 3 and item[0] == id] # Filters re-roll information.
+        reroll_info = reroll_info[0] # Stores the first index as the variable.
 
-        reroll_info = [self.previous_damage, self.previous_healers, self.previous_tanks, self.previous_team]
-        reroll_info = [item for item in reroll_info if len(item) == 3 and item[0] == id]
-        reroll_info = reroll_info[0]
-
+        # Returns False if the re-roll information doesn't have all three elements.
         if len(reroll_info) != 3:
-            return False
+            return tuple([False, None])
 
-        return tuple([True, reroll_info[1]])
+        return tuple([True, reroll_info[1]]) # Returns re-roll message.
     
     @property
     def damage_available(self):
-        return len(self.previous_damage) == 3
+        return len(self.previous_damage) == 3 # Checks if damage re-roll is available.
 
     @property
     def tanks_available(self):
-        return len(self.previous_tanks) == 3
+        return len(self.previous_tanks) == 3 # Checks if tank re-roll is available.
 
     @property
     def healers_available(self):
-        return len(self.previous_healers) == 3
+        return len(self.previous_healers) == 3 # Checks if healer re-roll is available.
+
+    @property
+    def team_available(self):
+        return len(self.previous_team) == 3 # Checks if team re-roll is available.
 
     def load_commands(self) -> None:
 
