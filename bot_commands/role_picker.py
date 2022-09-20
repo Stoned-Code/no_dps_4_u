@@ -1,5 +1,3 @@
-
-from macpath import split
 from enums.roles import ReRollTypes
 from bot_commands.events import add_reaction_callback
 import config
