@@ -1,8 +1,10 @@
 import abc
 from subprocess import call
-import discord
+
 import config
+import discord
 from discord.ext.commands import Bot
+
 reaction_callbacks = []
 
 def add_reaction_callback(callback):

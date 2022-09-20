@@ -1,13 +1,14 @@
-from enums.roles import ReRollTypes
-from bot_commands.events import add_reaction_callback
 import config
 import discord
-from discord import Emoji, Embed
+from discord import Embed, Emoji
 from discord.ext.commands.context import Context
+from enums.roles import ReRollTypes
 from sc_libs.discord.command import SCCommand
 from sc_libs.discord.command_class import Command_Class
-from sc_libs.utils.conversions import tuple_to_list, list_to_tuple
+from sc_libs.utils.conversions import list_to_tuple, tuple_to_list
 from sc_libs.utils.random import choices
+
+from bot_commands.events import add_reaction_callback
 
 max_player_count = 6
 

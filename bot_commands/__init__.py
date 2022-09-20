@@ -1,9 +1,9 @@
 from discord.ext import commands
 from sc_libs.discord.help import SCHelp
 
+from bot_commands import events
 from bot_commands.owner import Owner
 from bot_commands.role_picker import RolePicker
-from bot_commands import events
 
 maximum_player_count = 6
 
