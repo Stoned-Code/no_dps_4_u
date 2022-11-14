@@ -11,7 +11,7 @@ from sc_libs.utils.random import choices
 
 from bot_commands.events import add_reaction_callback
 
-max_player_count = 6
+max_player_count = 5
 
 class RolePicker(Command_Class):
     previous_damage = () # Previous information on the damage command.
@@ -158,7 +158,7 @@ class RolePicker(Command_Class):
                 return
 
             args = tuple_to_list(args)
-            tanks = choices(args, 2)
+            tanks = choices(args)
             msg: discord.Message = await ctx.send('Your chosen tanks are: {}'.format(', '.join(tanks)))
 
             self.set_previous_tanks(msg.id, tuple_to_list(args))
@@ -202,7 +202,7 @@ class RolePicker(Command_Class):
 
             dps = choices(player_list, 2)
             player_list = [player for player in player_list if player not in dps]
-            tanks = choices(player_list, 2) # Change in OW2.
+            tanks = choices(player_list)
             healers = [player for player in player_list if player not in tanks]
 
             print(dps)
