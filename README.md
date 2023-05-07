@@ -58,7 +58,7 @@ python -m venv venv
     source venv/bin/activate
     ```
 
-5. Install Librarie
+5. Install Libraries
 
 ```
 pip install -r requirements.txt
