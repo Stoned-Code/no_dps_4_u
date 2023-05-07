@@ -85,7 +85,7 @@ REROLL_REACTION = '🎲' # `string`: The reaction used for re-rolling an OW role
     - "Use External Emojis"
     - "Add Reaction"
 
-![Bot Permissions](https://github.com/Stoned-Code/no_dps_4_u/blob/main/Images/Permissions.png)
+![Bot Permissions](Images/Permissions.png)
 
 9. Run the bot
 
